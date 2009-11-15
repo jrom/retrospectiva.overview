@@ -22,8 +22,6 @@ class OverviewController < ProjectAreaController
         :include => [:user, :changes, :status],
         :order => ['tickets.updated_at DESC', 'ticket_changes.created_at'].compact.join(', '),
         :limit => 10)
-    
-    puts @tickets.inspect
 
     @events = Array.new
     @changesets.each do |changeset|
@@ -38,11 +36,11 @@ class OverviewController < ProjectAreaController
     end
 
     @tickets.each do |ticket|
-      changes = nil
+      changes = ""
       author = nil
       user = nil
       if ticket.changes.any?
-        changes = "<h4>Comment or change</h4>"
+        changes = "<h4>Comment or change:</h4>"
         if ticket.changes.last.updates?
           ticket.changes.last.updates.each do |property, update|
             changes += "<span class=\"strong\">#{h property}</span> " + overview_ticket_update(update, :em) + "<br />"
@@ -50,13 +48,21 @@ class OverviewController < ProjectAreaController
           author = ticket.changes.last.author
           user = ticket.changes.last.user
         end
-        changes += ticket.changes.last.content
+        changes += truncate(ticket.changes.last.content, 200)
+        changes += "<br /><br /><hr>"
+      else
+        changes = "<h4>Created:</h4>"
       end
+      content = ""
+      content += "<strong>Status:</strong> " + ticket.status.name + "<br />"
+      content += "<strong>Priority:</strong> " + ticket.priority.name + "<br />"
+      content += "<strong>Assigned to:</strong> " + h(ticket.assigned_user.name) + "<br />" if ticket.assigned_user
+      content += "<br />" + truncate(ticket.content, 200)
       @events << {
         :author => author || ticket.author,
         :user => user || ticket.user,
         :created_at => ticket.updated_at,
-        :content => changes || ticket.content,
+        :content => changes + content,
         :title => "Ticket [\##{ticket.id}] " + ticket.summary,
         :link => project_ticket_path(Project.current, ticket),
         :title_class => (ticket.status.name == "Fixed" ? "ticket-state-resolved ticket-statement-positive" : "")
@@ -79,5 +85,13 @@ class OverviewController < ProjectAreaController
   end
   def overview_wrap_update(value, tag = nil)
     tag ? "<#{tag}>#{h(value)}</#{tag}>" : h(value)
+  end
+  
+  def truncate(str, len)
+    if str.length > len
+      str[0..len-1] + "..."
+    else
+      str
+    end
   end
 end
