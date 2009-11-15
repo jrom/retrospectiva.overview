@@ -1,0 +1,5 @@
+.overview .ticket-state-resolved a { text-decoration: line-through; }
+
+.overview .ticket-statement-positive a { color: #672; }
+.overview .ticket-statement-neutral a { color: #37b; }
+.overview .ticket-statement-negative a { color: #732; }

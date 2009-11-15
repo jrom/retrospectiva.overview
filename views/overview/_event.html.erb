@@ -1,0 +1,20 @@
+<div class="event box clearfix">
+
+  <div class="span-4 centered colborder">
+    <div class="bottom-5"><%= author_gravatar(event[:user], event[:author]) %></div>
+    <% unless event[:author].blank? -%>
+      <h6 title="<%=h event[:author] %>"><%=h truncate(event[:author], :length => 20) %></h6>
+    <% end -%>
+    <div class="loud small" title="<%#h datetime_format(event[:created_at]) %>">
+      <%=h time_interval_in_words(event[:created_at]) %>
+    </div>        
+  </div>
+
+  <div class="span-16 last">
+    <h3 class="bottom-5 <%=h event[:title_class] %>" title="<%=h event[:title] %>" style="">
+      <%= link_to h(event[:title]), event[:link] %>
+    </h3>
+    <div class="clear quiet small"><%= event[:content] %></div>    
+  </div>  
+
+</div>

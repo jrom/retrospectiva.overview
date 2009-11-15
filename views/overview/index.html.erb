@@ -1,0 +1,10 @@
+<% include_overview_stylesheet -%>
+<% auto_discover_feed -%>
+<% slim_page -%>
+
+<div class="overview">
+  <%= page_title "Overview" %>
+  
+  <%= render :partial => 'event', :collection => @events %>
+  
+</div>
