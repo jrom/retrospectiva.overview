@@ -18,3 +18,7 @@ Step-by-step commands:
     cd ..
     script/rxm install overview
   
+## TODO
+* Internationalizate (now it's hardcoded English)
+* Do a proper "Event" class merging the overviewed items (Changesets, Tickets, ...)
+* Pagination
