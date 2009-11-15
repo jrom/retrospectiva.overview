@@ -15,5 +15,6 @@ Step-by-step commands:
     cd retrospectiva_root_dir
     cd extensions
     git clone git://github.com/jrom/retrospectiva.overview.git overview
+    cd ..
     script/rxm install overview
   
