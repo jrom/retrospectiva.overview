@@ -57,7 +57,7 @@ class OverviewController < ProjectAreaController
         :user => user || ticket.user,
         :created_at => ticket.updated_at,
         :content => changes || ticket.content,
-        :title => "Ticket " + ticket.summary,
+        :title => "Ticket [\##{ticket.id}] " + ticket.summary,
         :link => project_ticket_path(Project.current, ticket),
         :title_class => (ticket.status.name == "Fixed" ? "ticket-state-resolved ticket-statement-positive" : "")
       }
